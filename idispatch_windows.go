@@ -161,6 +161,10 @@ func invoke(disp *IDispatch, dispid int32, dispatch int16, params ...interface{}
 				safeByteArray := safeArrayFromStringSlice(v.([]string))
 				vargs[n] = NewVariant(VT_ARRAY|VT_BSTR, int64(uintptr(unsafe.Pointer(safeByteArray))))
 				defer VariantClear(&vargs[n])
+			case []float64:
+				safeByteArray := safeArrayFromFloat64Slice(v.([]float64))
+				vargs[n] = NewVariant(VT_ARRAY|VT_R8, int64(uintptr(unsafe.Pointer(safeByteArray))))
+
 			default:
 				panic("unknown type")
 			}

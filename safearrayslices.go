@@ -31,3 +31,14 @@ func safeArrayFromStringSlice(slice []string) *SafeArray {
 	}
 	return array
 }
+func safeArrayFromFloat64Slice(slice []float64) *SafeArray {
+	array, _ := safeArrayCreateVector(VT_R8, 0, uint32(len(slice)))
+
+	if array == nil {
+		panic("Could not convert []float64 to SAFEARRAY")
+	}
+	for i, v := range slice {
+		safeArrayPutElement(array, int64(i), uintptr(unsafe.Pointer(&v)))
+	}
+	return array
+}
