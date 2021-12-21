@@ -159,7 +159,7 @@ func invoke(disp *IDispatch, dispid int32, dispatch int16, params ...interface{}
 				defer VariantClear(&vargs[n])
 			case []string:
 				safeByteArray := safeArrayFromStringSlice(v.([]string))
-				vargs[n] = NewVariant(VT_ARRAY|VT_BSTR, int64(uintptr(unsafe.Pointer(safeByteArray))))
+				vargs[n] = NewVariant(VT_ARRAY|VT_VARIANT, int64(uintptr(unsafe.Pointer(safeByteArray))))
 				defer VariantClear(&vargs[n])
 
 			case []int32:
