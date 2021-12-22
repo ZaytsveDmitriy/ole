@@ -53,3 +53,16 @@ func safeArrayFromFloat64Slice(slice []float64) *SafeArray {
 	}
 	return array
 }
+
+func safeArrayFromVariantSlice(slice []VARIANT) *SafeArray {
+	array, _ := safeArrayCreateVector(VT_VARIANT, 0, uint32(len(slice)))
+
+	if array == nil {
+		panic("Could not convert []byte to SAFEARRAY")
+	}
+
+	for i, v := range slice {
+		safeArrayPutElement(array, int64(i), uintptr(unsafe.Pointer(&v)))
+	}
+	return array
+}
