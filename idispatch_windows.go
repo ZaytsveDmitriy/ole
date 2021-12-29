@@ -169,9 +169,14 @@ func invoke(disp *IDispatch, dispid int32, dispatch int16, params ...interface{}
 				vargs[n] = NewVariant(VT_ARRAY|VT_VARIANT, int64(uintptr(unsafe.Pointer(safeByteArray))))
 
 			case []int32:
-				safeByteArray := safeArrayFromInt32Slice(v.([]int32))
-				vargs[n] = NewVariant(VT_ARRAY|VT_I4, int64(uintptr(unsafe.Pointer(safeByteArray))))
-
+				// safeByteArray := safeArrayFromInt32Slice(v.([]int32))
+				// vargs[n] = NewVariant(VT_ARRAY|VT_I4, int64(uintptr(unsafe.Pointer(safeByteArray))))
+				array := make([]VARIANT, len(v.([]int32)))
+				for i, v := range v.([]int32) {
+					array[i] = NewVariant(VT_I4, int64(v))
+				}
+				safeByteArray := safeArrayFromVariantSlice(array)
+				vargs[n] = NewVariant(VT_ARRAY|VT_VARIANT, int64(uintptr(unsafe.Pointer(safeByteArray))))
 			case []float64:
 				safeByteArray := safeArrayFromFloat64Slice(v.([]float64))
 				vargs[n] = NewVariant(VT_ARRAY|VT_R8, int64(uintptr(unsafe.Pointer(safeByteArray))))
